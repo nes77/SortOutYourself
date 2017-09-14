@@ -1,6 +1,7 @@
 #include <algorithm>
-#include <iostream>
 #include <array>
+#include <cstdio>
+#include <iostream>
 #include <vector>
 
 /* stuff for mmap */
@@ -10,50 +11,33 @@
 #include <sys/types.h>
 #include <unistd.h>
 
-template <typename T>
-void print_vector(const std::vector<T> &vec) {
-    std::cout << '{';
-    for (size_t i = 0, l = vec.size(); i < l; ++i) {
-        if (i > 0) std::cout << ", ";
-        std::cout << vec[i];
-    }
-    std::cout << '}' << std::endl;
-}
-
-static std::vector<uint32_t> radix_sort(const std::vector<uint32_t> &numbers) {
-    /* TODO: Maybe sort in place? */
-
+static void radix_sort(std::vector<uint32_t> &numbers) {
     const size_t numbers_size = numbers.size();
-    std::vector<uint32_t> current = numbers;
 
     for (size_t lsd = 0; lsd < 32; ++lsd) {
         std::array<std::vector<uint32_t>, 2> buckets;
 
         for (size_t i = 0; i < numbers_size; ++i) {
-            const uint32_t number = current[i];
+            const uint32_t number = numbers[i];
             const uint32_t mask = 1 << lsd;
 
             buckets[(number & mask) == mask].push_back(number);
         }
 
         if (buckets[0].size() == numbers_size) {
-            return current;
+            return;
         }
 
-        current.clear();
+        numbers.clear();
         for (size_t i = 0; i < 2; ++i) {
             const std::vector<uint32_t> &bucket = buckets[i];
-            current.insert(current.end(), bucket.begin(), bucket.end());
+            numbers.insert(numbers.end(), bucket.begin(), bucket.end());
         }
     }
     throw std::logic_error("How could this happen?");
 }
 
 int main(void) {
-    /* Faster IO */
-    std::ios_base::sync_with_stdio(false);
-    std::cin.tie(NULL);
-
     int fd = open("numbers.bin", O_RDONLY);
     if (fd == -1) {
         puts("Could not open numbers.bin");
@@ -102,13 +86,14 @@ int main(void) {
         return EXIT_FAILURE;
     }
 
-    negative_numbers = radix_sort(negative_numbers);
+    radix_sort(negative_numbers);
     for (auto rit = negative_numbers.rbegin(), rend = negative_numbers.rend(); rit != rend; ++rit) {
         int32_t v = *rit;
         *(integers++) = -v;
     }
 
-    for (uint32_t v : radix_sort(positive_numbers)) {
+    radix_sort(positive_numbers);
+    for (uint32_t v : positive_numbers) {
         *(integers++) = v;
     }
 
