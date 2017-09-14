@@ -15,24 +15,28 @@ static void radix_sort(std::vector<uint32_t> &numbers) {
     const size_t numbers_size = numbers.size();
 
     for (size_t lsd = 0; lsd < 32; ++lsd) {
-        std::array<std::vector<uint32_t>, 2> buckets;
+        std::vector<uint32_t> high;
+        std::vector<uint32_t> low;
 
         for (size_t i = 0; i < numbers_size; ++i) {
             const uint32_t number = numbers[i];
             const uint32_t mask = 1 << lsd;
 
-            buckets[(number & mask) == mask].push_back(number);
+            if (number & mask) {
+                high.push_back(number);
+            } else {
+                low.push_back(number);
+            }
         }
 
-        if (buckets[0].size() == numbers_size) {
+        if (low.size() == numbers_size) {
             return;
         }
 
         numbers.clear();
-        for (size_t i = 0; i < 2; ++i) {
-            const std::vector<uint32_t> &bucket = buckets[i];
-            numbers.insert(numbers.end(), bucket.begin(), bucket.end());
-        }
+
+        numbers.insert(numbers.end(), low.begin(), low.end());
+        numbers.insert(numbers.end(), high.begin(), high.end());
     }
     throw std::logic_error("How could this happen?");
 }
