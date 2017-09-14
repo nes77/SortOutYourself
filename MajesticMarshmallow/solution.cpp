@@ -15,8 +15,9 @@ static void radix_sort(std::vector<uint32_t> &numbers) {
     const size_t numbers_size = numbers.size();
 
     for (uint32_t lsd = 0; lsd < 32; ++lsd) {
-        std::vector<uint32_t> high;
-        std::vector<uint32_t> low;
+        std::vector<uint32_t> low, high;
+        low.reserve(numbers_size);
+        high.reserve(numbers_size);
 
         for (size_t i = 0; i < numbers_size; ++i) {
             const uint32_t number = numbers[i];
