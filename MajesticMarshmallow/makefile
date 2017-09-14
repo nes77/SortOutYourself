@@ -1,5 +1,5 @@
 CC := clang++
-CFLAGS := -std=c++14 -Ofast -march=native
+CFLAGS := -std=c++14 -march=native -Ofast
 
 SRCDIR := .
 OBJDIR := .

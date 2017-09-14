@@ -60,12 +60,13 @@ int main(void) {
         return EXIT_FAILURE;
     }
 
-    /* I am expecting all of these calls to work correctly due to being able to
-     * create the file descriptor. */
+    /* I prefer using integer_amount * sizeof(int32_t) over st.st_size just for
+     * intention's sake. */
     struct stat st;
     stat("numbers.bin", &st);
     size_t integer_amount = st.st_size / sizeof(int32_t);
-    int32_t *integers = (int32_t*) mmap(NULL, integer_amount, PROT_READ, MAP_SHARED, fd, 0);
+
+    int32_t *integers = (int32_t*) mmap(NULL, integer_amount * sizeof(int32_t), PROT_READ, MAP_SHARED, fd, 0);
     if (integers == MAP_FAILED) {
         puts("Could not create the read mmap.");
         return EXIT_FAILURE;
@@ -95,7 +96,7 @@ int main(void) {
     write(fd, "", 1);
     lseek(fd, 0, SEEK_SET);
 
-    integers = (int32_t*) mmap(NULL, integer_amount, PROT_WRITE, MAP_SHARED, fd, 0);
+    integers = (int32_t*) mmap(NULL, integer_amount * sizeof(int32_t), PROT_WRITE, MAP_SHARED, fd, 0);
     if (integers == MAP_FAILED) {
         puts("Could not create the write mmap.");
         return EXIT_FAILURE;
