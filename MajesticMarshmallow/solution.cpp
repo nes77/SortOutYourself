@@ -14,7 +14,7 @@
 static void radix_sort(std::vector<uint32_t> &numbers) {
     const size_t numbers_size = numbers.size();
 
-    for (size_t lsd = 0; lsd < 32; ++lsd) {
+    for (uint32_t lsd = 0; lsd < 32; ++lsd) {
         std::vector<uint32_t> high;
         std::vector<uint32_t> low;
 
@@ -29,16 +29,10 @@ static void radix_sort(std::vector<uint32_t> &numbers) {
             }
         }
 
-        if (low.size() == numbers_size) {
-            return;
-        }
-
         numbers.clear();
-
         numbers.insert(numbers.end(), low.begin(), low.end());
         numbers.insert(numbers.end(), high.begin(), high.end());
     }
-    throw std::logic_error("How could this happen?");
 }
 
 int main(void) {
@@ -60,6 +54,15 @@ int main(void) {
         return EXIT_FAILURE;
     }
 
+    /*
+     * We convert the nagative numbers to positive numbers here.
+     * This is because first of all not every computer represents negative
+     * numbers in the same way, so results could vary from computer to
+     * computer.
+     * My computer however uses two's complement.
+     * Which, for technical reasons, puts negative numbers after positive ones,
+     * which is obviously not what we want.
+     */
     std::vector<uint32_t> positive_numbers;
     std::vector<uint32_t> negative_numbers;
     for (size_t i = 0; i < integer_amount; ++i) {
@@ -80,6 +83,7 @@ int main(void) {
         return EXIT_FAILURE;
     }
 
+    /* We need to expand the size of the file so that we can fit our numbers */
     lseek(fd, integer_amount * sizeof(int32_t) - 1, SEEK_SET);
     write(fd, "", 1);
     lseek(fd, 0, SEEK_SET);
@@ -90,6 +94,9 @@ int main(void) {
         return EXIT_FAILURE;
     }
 
+    /* Since we convert the negative numbers to positive numbers to simplify
+     * sorting, we need to convert them to descending order instead of
+     * ascending */
     radix_sort(negative_numbers);
     for (auto rit = negative_numbers.rbegin(), rend = negative_numbers.rend(); rit != rend; ++rit) {
         int32_t v = *rit;
