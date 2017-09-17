@@ -18,3 +18,8 @@ $ make run
 ```
 
 ... That's it.
+
+# Performance Results
+On the test file:
+time: 48.5 seconds
+mem : 2.8 GiB peak
