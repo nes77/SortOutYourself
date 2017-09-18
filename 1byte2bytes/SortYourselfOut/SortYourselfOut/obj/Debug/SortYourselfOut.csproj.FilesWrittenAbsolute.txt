@@ -1,0 +1,5 @@
+/Users/sydneyerickson/Documents/Projects/SortYourselfOut/1byte2bytes/SortYourselfOut/SortYourselfOut/obj/Debug/.NETFramework,Version=v4.5.AssemblyAttribute.cs
+/Users/sydneyerickson/Documents/Projects/SortYourselfOut/1byte2bytes/SortYourselfOut/SortYourselfOut/bin/Debug/SortYourselfOut.pdb
+/Users/sydneyerickson/Documents/Projects/SortYourselfOut/1byte2bytes/SortYourselfOut/SortYourselfOut/bin/Debug/SortYourselfOut.exe
+/Users/sydneyerickson/Documents/Projects/SortYourselfOut/1byte2bytes/SortYourselfOut/SortYourselfOut/obj/Debug/SortYourselfOut.exe
+/Users/sydneyerickson/Documents/Projects/SortYourselfOut/1byte2bytes/SortYourselfOut/SortYourselfOut/obj/Debug/SortYourselfOut.pdb
