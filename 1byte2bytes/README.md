@@ -10,3 +10,5 @@ xbuild SortYourselfOut.sln /p:Configuration=Release
 cd SortYourselfOut/bin/Release
 mono SortYourselfOut.exe input.bin
 ```
+# Performance Results
+27 seconds, 1 GiB
