@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Text;
 
 namespace SortYourselfOut
@@ -23,7 +24,7 @@ namespace SortYourselfOut
             }
 
             //List<int> numberList = new List<int>();
-            int[] numberList = new int[1000000];
+            int[] numberList = new int[100000000];
             
             using (FileStream fs = File.Open(args[0], FileMode.Open, FileAccess.Read))
             using (BufferedStream bs = new BufferedStream(fs))
@@ -41,8 +42,7 @@ namespace SortYourselfOut
                 loadsw.Stop();
                 
                 Stopwatch sortsw = Stopwatch.StartNew();
-                //numberList.Sort();
-                Array.Sort(numberList);
+                Sorting.QuicksortParallelOptimised(numberList, 0, numberList.Length-1);
                 sortsw.Stop();
                 
                 Stopwatch writesw = Stopwatch.StartNew();
@@ -60,7 +60,6 @@ namespace SortYourselfOut
                 Console.WriteLine(loadsw.ElapsedMilliseconds);
                 Console.WriteLine(sortsw.ElapsedMilliseconds);
                 Console.WriteLine(writesw.ElapsedMilliseconds);
-                Console.WriteLine(numberList.Length);
             }
         }
     }
