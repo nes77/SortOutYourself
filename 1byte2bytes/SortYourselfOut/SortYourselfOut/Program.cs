@@ -24,7 +24,8 @@ namespace SortYourselfOut
             }
 
             //List<int> numberList = new List<int>();
-            int[] numberList = new int[100000000];
+            long length = new System.IO.FileInfo(args[0]).Length;
+            int[] numberList = new int[length/4];
             
             using (FileStream fs = File.Open(args[0], FileMode.Open, FileAccess.Read))
             using (BufferedStream bs = new BufferedStream(fs))
@@ -56,10 +57,6 @@ namespace SortYourselfOut
                     }
                 }
                 writesw.Stop();
-                
-                Console.WriteLine(loadsw.ElapsedMilliseconds);
-                Console.WriteLine(sortsw.ElapsedMilliseconds);
-                Console.WriteLine(writesw.ElapsedMilliseconds);
             }
         }
     }
