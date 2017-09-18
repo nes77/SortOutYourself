@@ -7,6 +7,6 @@ xbuild SortYourselfOut.sln /p:Configuration=Release
 
 # How to run
 ```
-cd bin/Release
+cd SortYourselfOut/bin/Release
 mono SortYourselfOut.exe input.bin
 ```
